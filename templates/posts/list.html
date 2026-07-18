@@ -51,7 +51,11 @@
 
             </td>
 
-            <td>{{ post.client.name }}</td>
+            <td>
+                {% for account in post.social_accounts.all %}
+                    {{ account.username }}
+                {% endfor %}    
+            </td>
 
             <td>{{ post.publish_at }}</td>
 

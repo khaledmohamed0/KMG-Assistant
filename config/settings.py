@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     "clients",
     "posts",
     "dashboard",
+    'scheduler',
+    'social',
 ]
 
 MIDDLEWARE = [

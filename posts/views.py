@@ -19,7 +19,11 @@ class PostListView(ListView):
     context_object_name = "posts"
 
     def get_queryset(self):
-        return Post.objects.select_related("client").order_by("-created_at")
+        return Post.objects.prefetch_related(
+            "social_accounts"
+        ).select_related(
+            "created_by"
+        ).order_by("-created_at")
 
 
 class PostCreateView(CreateView):

@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from clients.models import Client
+from clients.models import Client, SocialAccount
 
 
 class Post(models.Model):
@@ -12,9 +12,8 @@ class Post(models.Model):
         ("failed", "Failed"),
     )
 
-    client = models.ForeignKey(
-        Client,
-        on_delete=models.CASCADE,
+    social_accounts = models.ManyToManyField(
+        "clients.SocialAccount",
         related_name="posts"
     )
 
@@ -82,4 +81,4 @@ class Post(models.Model):
     )
 
     def __str__(self):
-        return f"{self.client.name} - {self.status}"
+        return f"Post #{self.pk} - {self.status}"
