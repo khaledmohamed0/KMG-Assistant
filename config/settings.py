@@ -143,7 +143,7 @@ TEMPLATES[0]["DIRS"] = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-SITE_URL = "https://KMGGroup.pythonanywhere.com"
+SITE_URL = "https://KMGAssistant.pythonanywhere.com"
 META_APP_ID = os.getenv("META_APP_ID")
 META_APP_SECRET = os.getenv("META_APP_SECRET")
 
