@@ -1,0 +1,209 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="fw-bold">Dashboard</h2>
+            <p class="text-muted mb-0">
+                Welcome to KMG AI Assistant 🚀
+            </p>
+        </div>
+
+        <a href="#" class="btn btn-primary">
+            + New Post
+        </a>
+
+    </div>
+
+    <div class="row">
+
+        <!-- Clients -->
+        <div class="col-lg-3 col-md-6 mb-4">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+                        Clients
+                    </h6>
+
+                    <h2>
+                        {{ clients_count }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Posts -->
+        <div class="col-lg-3 col-md-6 mb-4">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+                        Posts
+                    </h6>
+
+                    <h2>
+                        {{ posts_count }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Scheduled -->
+        <div class="col-lg-3 col-md-6 mb-4">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+                        Scheduled
+                    </h6>
+
+                    <h2>
+                        {{ scheduled_count }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Published -->
+        <div class="col-lg-3 col-md-6 mb-4">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+                        Published
+                    </h6>
+
+                    <h2>
+                        {{ published_count }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white">
+
+            <h5 class="mb-0">
+                Latest Posts
+            </h5>
+
+        </div>
+
+        <div class="card-body p-0">
+
+            <table class="table table-hover align-middle mb-0">
+
+                <thead class="table-light">
+
+                    <tr>
+
+                        <th>Client</th>
+
+                        <th>Caption</th>
+
+                        <th>Status</th>
+
+                        <th>Publish At</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for post in latest_posts %}
+
+                    <tr>
+
+                        <td>
+                            {{ post.client.name }}
+                        </td>
+
+                        <td>
+                            {{ post.caption|truncatechars:50 }}
+                        </td>
+
+                        <td>
+
+                            {% if post.status == "draft" %}
+                                <span class="badge bg-secondary">
+                                    Draft
+                                </span>
+
+                            {% elif post.status == "scheduled" %}
+                                <span class="badge bg-warning text-dark">
+                                    Scheduled
+                                </span>
+
+                            {% elif post.status == "published" %}
+                                <span class="badge bg-success">
+                                    Published
+                                </span>
+
+                            {% else %}
+                                <span class="badge bg-danger">
+                                    Failed
+                                </span>
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+                            {{ post.publish_at }}
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+
+                        <td colspan="4" class="text-center p-4">
+
+                            No posts yet.
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

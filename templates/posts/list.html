@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <h2>Posts</h2>
+
+    <a href="{% url 'post_create' %}" class="btn btn-primary">
+        + New Post
+    </a>
+
+</div>
+
+<table class="table table-hover align-middle">
+
+    <thead>
+
+        <tr>
+
+            <th>Preview</th>
+            <th>Client</th>
+            <th>Publish At</th>
+            <th>Status</th>
+            <th>Actions</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        {% for post in posts %}
+
+        <tr>
+
+            <td>
+
+                {% if post.image %}
+
+                    <img src="{{ post.image.url }}"
+                         width="70"
+                         height="70"
+                         style="object-fit:cover;border-radius:8px;">
+
+                {% else %}
+
+                    🎥 Video
+
+                {% endif %}
+
+            </td>
+
+            <td>{{ post.client.name }}</td>
+
+            <td>{{ post.publish_at }}</td>
+
+            <td>
+
+                {% if post.status == "draft" %}
+                    <span class="badge bg-secondary">Draft</span>
+
+                {% elif post.status == "scheduled" %}
+                    <span class="badge bg-warning text-dark">Scheduled</span>
+
+                {% elif post.status == "published" %}
+                    <span class="badge bg-success">Published</span>
+
+                {% else %}
+                    <span class="badge bg-danger">Failed</span>
+
+                {% endif %}
+
+            </td>
+
+            <td>
+
+                <a href="{% url 'post_edit' post.id %}"
+                   class="btn btn-warning btn-sm">
+
+                    Edit
+
+                </a>
+
+                <a href="{% url 'post_delete' post.id %}"
+                   class="btn btn-danger btn-sm">
+
+                    Delete
+
+                </a>
+
+            </td>
+
+        </tr>
+
+        {% empty %}
+
+        <tr>
+
+            <td colspan="5" class="text-center">
+
+                No Posts Yet
+
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
+
+</table>
+
+{% endblock %}
