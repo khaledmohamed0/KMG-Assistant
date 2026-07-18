@@ -27,9 +27,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-9gldda^#m@n8)d5g#ho49uozt=d%d#gvvdq!==6n2b@be_l4am'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['KMGGroup.pythonanywhere.com']
 
 
 # Application definition
@@ -45,8 +45,8 @@ INSTALLED_APPS = [
     "clients",
     "posts",
     "dashboard",
-    'scheduler',
     'social',
+    "scheduler.apps.SchedulerConfig",
 ]
 
 MIDDLEWARE = [
@@ -114,7 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Africa/Cairo'
 
 USE_I18N = True
 
@@ -142,7 +142,7 @@ TEMPLATES[0]["DIRS"] = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
+SITE_URL = "https://KMGGroup.pythonanywhere.com"
 META_APP_ID = os.getenv("META_APP_ID")
 META_APP_SECRET = os.getenv("META_APP_SECRET")
 

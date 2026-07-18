@@ -1,6 +1,6 @@
 from django.utils import timezone
 
-from social.instagram.publisher import InstagramPublisher
+from services.publishers.factory import PublisherFactory
 
 
 class PostService:
@@ -8,16 +8,23 @@ class PostService:
     @staticmethod
     def publish(post):
 
-        publisher = InstagramPublisher()
+        try:
 
-        success = publisher.publish(post)
+            for account in post.social_accounts.all():
 
-        if success:
+                publisher = PublisherFactory.get(account)
+
+                result = publisher.publish(post)
+
+                post.platform_post_id = result["id"]
 
             post.status = "published"
-
             post.published_at = timezone.now()
+            post.notes = ""
 
-            post.save()
+        except Exception as e:
 
-        return success
+            post.status = "failed"
+            post.notes = str(e)
+
+        post.save()

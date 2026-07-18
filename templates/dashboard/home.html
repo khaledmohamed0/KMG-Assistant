@@ -8,13 +8,17 @@
 
         <div>
             <h2 class="fw-bold">Dashboard</h2>
+
             <p class="text-muted mb-0">
-                Welcome to KMG AI Assistant 🚀
+                Welcome back! Here's an overview of your social media activity.
             </p>
         </div>
 
-        <a href="#" class="btn btn-primary">
+        <a href="{% url 'post_create' %}"
+           class="btn btn-success px-4">
+
             + New Post
+
         </a>
 
     </div>
@@ -111,9 +115,21 @@
 
         <div class="card-header bg-white">
 
-            <h5 class="mb-0">
-                Latest Posts
-            </h5>
+            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+
+                <h5 class="mb-0 fw-bold">
+
+                    Latest Posts
+
+                </h5>
+
+                <a href="{% url 'posts' %}" class="btn btn-sm btn-outline-success">
+
+                    View All
+
+                </a>
+
+            </div>
 
         </div>
 
@@ -144,7 +160,13 @@
                     <tr>
 
                         <td>
-                            {{ post.client.name }}
+                            {% for account in post.social_accounts.all %}
+
+                            {{ account.username }}
+
+                            {% if not forloop.last %}, {% endif %}
+
+                            {% endfor %}
                         </td>
 
                         <td>
@@ -177,7 +199,7 @@
                         </td>
 
                         <td>
-                            {{ post.publish_at }}
+                            {{ post.publish_at|date:"d M Y - h:i A" }}
                         </td>
 
                     </tr>

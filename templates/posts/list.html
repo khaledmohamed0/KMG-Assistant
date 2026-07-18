@@ -4,115 +4,194 @@
 
 <div class="d-flex justify-content-between align-items-center mb-4">
 
-    <h2>Posts</h2>
+    <div>
 
-    <a href="{% url 'post_create' %}" class="btn btn-primary">
+        <h2 class="fw-bold mb-1">Posts</h2>
+
+        <p class="text-muted mb-0">
+            Manage and schedule your social media content.
+        </p>
+
+    </div>
+
+    <a href="{% url 'post_create' %}" class="btn btn-success px-4">
         + New Post
     </a>
 
 </div>
 
-<table class="table table-hover align-middle">
+<div class="card shadow-sm border-0 mb-4">
 
-    <thead>
+    <div class="card-body">
 
-        <tr>
+        <input
+            type="text"
+            class="form-control"
+            placeholder="🔍 Search posts..."
+        >
 
-            <th>Preview</th>
-            <th>Client</th>
-            <th>Publish At</th>
-            <th>Status</th>
-            <th>Actions</th>
+    </div>
 
-        </tr>
+</div>
 
-    </thead>
+<div class="row">
 
-    <tbody>
+{% for post in posts %}
 
-        {% for post in posts %}
+<div class="col-lg-4 col-md-6 mb-4">
 
-        <tr>
+<div class="card border-0 shadow-sm h-100">
 
-            <td>
+{% if post.image %}
 
-                {% if post.image %}
+<img
+src="{{ post.image.url }}"
+class="card-img-top"
+style="height:220px;object-fit:cover;"
+>
 
-                    <img src="{{ post.image.url }}"
-                         width="70"
-                         height="70"
-                         style="object-fit:cover;border-radius:8px;">
+{% else %}
 
-                {% else %}
+<div
+class="d-flex align-items-center justify-content-center bg-light"
+style="height:220px;font-size:70px;"
+>
 
-                    🎥 Video
+🎥
 
-                {% endif %}
+</div>
 
-            </td>
+{% endif %}
 
-            <td>
-                {% for account in post.social_accounts.all %}
-                    {{ account.username }}
-                {% endfor %}    
-            </td>
+<div class="card-body">
 
-            <td>{{ post.publish_at }}</td>
+<h5 class="fw-bold">
 
-            <td>
+{% if post.idea %}
+{{ post.idea|truncatechars:35 }}
+{% else %}
+No Title
+{% endif %}
 
-                {% if post.status == "draft" %}
-                    <span class="badge bg-secondary">Draft</span>
+</h5>
 
-                {% elif post.status == "scheduled" %}
-                    <span class="badge bg-warning text-dark">Scheduled</span>
+<p class="text-muted">
 
-                {% elif post.status == "published" %}
-                    <span class="badge bg-success">Published</span>
+{{ post.caption|truncatechars:100 }}
 
-                {% else %}
-                    <span class="badge bg-danger">Failed</span>
+</p>
 
-                {% endif %}
+{% if post.status == "draft" %}
 
-            </td>
+<span class="badge bg-secondary">
+Draft
+</span>
 
-            <td>
+{% elif post.status == "scheduled" %}
 
-                <a href="{% url 'post_edit' post.id %}"
-                   class="btn btn-warning btn-sm">
+<span class="badge bg-warning text-dark">
+Scheduled
+</span>
 
-                    Edit
+{% elif post.status == "published" %}
 
-                </a>
+<span class="badge bg-success">
+Published
+</span>
 
-                <a href="{% url 'post_delete' post.id %}"
-                   class="btn btn-danger btn-sm">
+{% else %}
 
-                    Delete
+<span class="badge bg-danger">
+Failed
+</span>
 
-                </a>
+{% endif %}
 
-            </td>
+<hr>
 
-        </tr>
+<p class="mb-1">
 
-        {% empty %}
+📅 {{ post.publish_at|date:"d M Y - h:i A" }}
 
-        <tr>
+</p>
 
-            <td colspan="5" class="text-center">
+<p class="mb-2">
 
-                No Posts Yet
+👤
 
-            </td>
+{% for account in post.social_accounts.all %}
 
-        </tr>
+{{ account.username }}
 
-        {% endfor %}
+{% if not forloop.last %}
+,
+{% endif %}
 
-    </tbody>
+{% endfor %}
 
-</table>
+</p>
+
+<div class="d-flex justify-content-between">
+
+<a
+href="{% url 'post_edit' post.id %}"
+class="btn btn-outline-success btn-sm"
+>
+
+Edit
+
+</a>
+
+<a
+href="{% url 'post_delete' post.id %}"
+class="btn btn-outline-danger btn-sm"
+>
+
+Delete
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+{% empty %}
+
+<div class="col-12">
+
+<div class="card border-0 shadow-sm">
+
+<div class="card-body text-center py-5">
+
+<h4>No Posts Yet</h4>
+
+<p class="text-muted">
+
+Create your first post.
+
+</p>
+
+<a
+href="{% url 'post_create' %}"
+class="btn btn-success"
+>
+
+Create Post
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
 
 {% endblock %}

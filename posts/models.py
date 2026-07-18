@@ -60,7 +60,10 @@ class Post(models.Model):
         blank=True,
         related_name="created_posts"
     )
-
+    platform_response = models.JSONField(
+        blank=True,
+        null=True
+    )
     
     notes = models.TextField(
         blank=True,
@@ -78,6 +81,11 @@ class Post(models.Model):
     published_at = models.DateTimeField(
         null=True,
         blank=True
+    )
+    platform_post_id = models.CharField(
+        max_length=200,
+        blank=True,
+        null=True
     )
 
     def __str__(self):
